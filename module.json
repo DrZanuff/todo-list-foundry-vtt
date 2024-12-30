@@ -1,0 +1,25 @@
+{
+  "id": "todo-list",
+  "title": "Todo List",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "12"
+  },
+  "description": "A simple todo list",
+  "authors": [
+    {
+      "name": "Ricardo Machado",
+      "flags": {}
+    }
+  ],
+  "scripts": ["scripts/todo-list.js"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "styles": ["styles/todo-list.css"]
+}
