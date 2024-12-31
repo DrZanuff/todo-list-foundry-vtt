@@ -1,3 +1,8 @@
 {
-  "TODO-LIST": {}
+  "TODO_LIST": {
+    "buttonTitle": "Open To-Do list",
+    "add-todo": "Add To-Do",
+    "delete-todo": "Delete To-Do",
+    "mark-done": "Mark Done"
+  }
 }

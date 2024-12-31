@@ -55,6 +55,7 @@ class ToDoListData {
    * @param {string} userId - id of the user whose ToDos to return
    * @returns {Record<string, ToDo> | undefined}
    */
+
   static getToDosForUser(userId) {
     return game.users.get(userId)?.getFlag(ToDoList.ID, ToDoList.FLAGS.TODOS)
   }
@@ -141,15 +142,33 @@ class ToDoListData {
   }
 }
 
-// Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
-//   registerPackageDebugFlag(ToDoList.ID)
-// })
+class ToDoListConfig extends FormApplication {
+  static get defaultOptions() {
+    const defaults = super.defaultOptions
+
+    const overrides = {
+      height: 'auto',
+      id: 'todo-list',
+      template: ToDoList.TEMPLATES.TODOLIST,
+      title: 'To Do List',
+      userId: game.userId,
+    }
+
+    const mergedOptions = foundry.utils.mergeObject(defaults, overrides)
+
+    return mergedOptions
+  }
+
+  getData(options) {
+    return {
+      todos: ToDoListData.getToDosForUser(options.userId),
+    }
+  }
+}
 
 Hooks.on('ready', () => {
-  // const currentUserId = game.users.current.id
-
   // Create
-  // ToDoListData.createTodo(currentUserId, { label: `My Todo` })
+  // ToDoListData.createTodo(game.userId, { label: `Assistir Vikings` })
 
   // Update
   // ToDoListData.updateToDo('todoId', {
@@ -162,5 +181,27 @@ Hooks.on('ready', () => {
   console.log(
     'DBG: This code runs once core initialization is ready and game data is available.',
     ToDoListData.allToDos
+  )
+})
+
+Hooks.on('renderPlayerList', (_, html) => {
+  html.on('click', '.todo-list-icon-button', (_) => {
+    console.log(ToDoListData.allToDos)
+  })
+
+  const loggedInUserListItem = html.find(`[data-user-id="${game?.userId}"]`)
+  const tooltip = game.i18n.localize('TODO_LIST.buttonTitle')
+
+  loggedInUserListItem.append(
+    /*html*/
+    `
+      <button
+        type='button'
+        class='todo-list-icon-button flex0'
+        title='${tooltip}'
+      >
+        <i class='fas fa-tasks'></i>
+      </button>
+    `
   )
 })
