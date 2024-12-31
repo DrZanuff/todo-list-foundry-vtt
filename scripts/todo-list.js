@@ -27,6 +27,10 @@ class ToDoList {
       console.log(this.ID, '|', ...args)
     }
   }
+
+  static initialize() {
+    this.toDoListConfig = new ToDoListConfig()
+  }
 }
 
 /**
@@ -182,6 +186,10 @@ Hooks.on('ready', () => {
     'DBG: This code runs once core initialization is ready and game data is available.',
     ToDoListData.allToDos
   )
+})
+
+Hooks.once('init', () => {
+  ToDoList.initialize()
 })
 
 Hooks.on('renderPlayerList', (_, html) => {
